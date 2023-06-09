@@ -2,7 +2,7 @@ const express = require('express');
 const mongoose = require("mongoose");
 const cors = require("cors");
 const bodyParser = require("body-parser");
-const TransactionRouters = require("./routes/transaction.js");
+const TransactionRouters = require("./routes/TransactionAPI.js");
 
 const PORT = 4000
 const app = express();
@@ -13,7 +13,7 @@ app.use(bodyParser.json());
 app.get('/', (req, res) => { //get request
     res.send('Hello World');
 });
-app.use('/', TransactionRouters);
+app.use('/transaction', TransactionRouters);
 
 
 
