@@ -1,7 +1,8 @@
 const express = require('express');
-const mongoose = require("mongoose")
-const cors = require("cors")
-const bodyParser = require("body-parser")
+const mongoose = require("mongoose");
+const cors = require("cors");
+const bodyParser = require("body-parser");
+const Transaction = require("./models/transaction")
 
 const PORT = 4000
 const app = express();
@@ -18,9 +19,15 @@ app.get('/', (req, res) => { //get request
     res.send('Hello World');
 });
 
-app.post('/transaction', (req, res) => {  //post request
-    const {amount, detail, date} = req.body
-    res.json({msg: "Transaction is added"});
+app.post('/transaction', async (req, res) => {  //post request
+    const {amount, detail, date} = req.body;
+    const transaction = new Transaction({
+        amount, 
+        detail, 
+        date
+    });
+    await transaction.save();
+    res.json({msg: "Transaction is added successfully"});
 });
 
 app.listen(PORT, () => {
