@@ -12,8 +12,13 @@ mongoose.connect(
     );
 console.log("MongoDB is connected successfully");
 
-app.get('/', (req, res) => {
+app.get('/', (req, res) => { //get request
     res.send('Hello World');
+});
+
+app.post('/transaction', (req, res) => {  //post request
+    console.log(req.body)
+    res.json({msg: "Transaction is added"});
 });
 
 app.listen(PORT, () => {
