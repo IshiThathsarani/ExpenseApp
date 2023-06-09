@@ -5,12 +5,12 @@ const Transaction = require("../models/transaction.js");
 
 const router = Router();
 
-router.get('/transaction', async (req, res) => { 
+router.get('/', async (req, res) => { 
     const transactions = await Transaction.find({}).sort({createdAt: -1});  //finds all the transactions. -1 is used to sort in latest to oldest  
     res.json({data:transactions});
 });
 
-router.post('/transaction', async (req, res) => {  //post request
+router.post('/', async (req, res) => {  //post request
     const {amount, detail, date} = req.body;
     const transaction = new Transaction({
         amount, 
