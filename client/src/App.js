@@ -1,11 +1,29 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+
+const InitialForm = {
+  amount:0,
+  detail:" ",
+  date:" "
+}
 
 function App() {
-  const[form, setForm] = useState({
-    amount:0,
-    details:" ",
-    date:" "
-  });
+  const[form, setForm] = useState(InitialForm);
+
+  
+
+  const [transactions, setTransactions] = useState([
+
+  ]); 
+
+  async function fetchTransactions() {
+    const res = await fetch("http://localhost:4000/transaction"); //fetches data from the server. default method: get
+    const {data} = await res.json(); //{data} is used to destructuring
+    setTransactions(data);
+  }
+
+  useEffect(() => {
+    fetchTransactions();
+  }, []);
 
   function handleInput(e) {
     setForm({...form, [e.target.name]: e.target.value});
@@ -13,15 +31,18 @@ function App() {
 
   async function handleSubmit(e) {
     e.preventDefault(); // prevents page from refreshing
-    const res = await fetch("http://localhost:4000/transaction", {
+    const res = await fetch("http://localhost:4000/transaction", {  //creates a new transaction
       method: 'POST',
       body: JSON.stringify(form),
       headers: {
         'Content-Type': 'application/json'
       }
     });
-    const data = await res.json();
-    console.log(data)
+    if(res.ok) {
+      setForm(InitialForm);
+      fetchTransactions();
+    }
+    
   }
   return (
     <div >
@@ -35,8 +56,8 @@ function App() {
         />
         <input 
           type="text" 
-          name="details"
-          value={form.details}
+          name="detail"
+          value={form.detail}
           onChange={handleInput}
           placeholder="Enter transaction details" 
         />
@@ -48,6 +69,26 @@ function App() {
         />
         <button type="submit"> Submit </button>
       </form>
+      <br />
+      <section>
+        <table>
+          <thead>
+            <th> Amount </th>
+            <th> Detail </th>
+            <th> Date </th>
+          </thead>
+          <tbody>
+            {transactions.map((trx) => ( //mapping transactions
+              <tr key={trx._id}>
+              <td>{trx.amount}</td>
+              <td>{trx.detail}</td>
+              <td>{trx.Date}</td>
+            </tr>
+            ))}
+            
+          </tbody>
+        </table>
+      </section>
     </div>
   );
 }
