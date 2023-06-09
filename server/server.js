@@ -1,8 +1,8 @@
 const express = require('express');
-const mongoose = require("mongoose");
 const cors = require("cors");
 const bodyParser = require("body-parser");
-const TransactionRouters = require("./routes/TransactionAPI.js");
+const TransactionsAPI = require("./routes/TransactionAPI.js");
+const connect = require("./database/mongodb.js");
 
 const PORT = 4000
 const app = express();
@@ -13,17 +13,9 @@ app.use(bodyParser.json());
 app.get('/', (req, res) => { //get request
     res.send('Hello World');
 });
-app.use('/transaction', TransactionRouters);
+app.use('/transaction', TransactionsAPI);
 
-
-
-mongoose.connect(
-    "mongodb+srv://ishini:ishini99@transaction.u2routz.mongodb.net/?retryWrites=true&w=majority"
-    );
-console.log("MongoDB is connected successfully");
-
-
-
+connect();
 
 
 app.listen(PORT, () => {
