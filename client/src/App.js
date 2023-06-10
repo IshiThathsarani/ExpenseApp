@@ -2,13 +2,13 @@ import './App.css';
 import { useEffect, useState } from 'react';
 import AppBar from './components/AppBar';
 import TransactionForm from './components/TransactionForm';
+import TransactionList from './components/TransactionsList';
+import { Container } from '@mui/material';
 
 
 function App() {
 
-  const [transactions, setTransactions] = useState([
-
-  ]); 
+  const [transactions, setTransactions] = useState([]); 
 
   async function fetchTransactions() {
     const res = await fetch("http://localhost:4000/transaction"); //fetches data from the server. default method: get
@@ -23,29 +23,13 @@ function App() {
   return (
     <div >
       <AppBar/>
-      <TransactionForm fetchTransactions={fetchTransactions}/>
 
-      <br />
+      <Container>
+        <TransactionForm fetchTransactions={fetchTransactions}/>
+        <TransactionList transactions={transactions}/>
+      </Container>
       
-      <section>
-        <table>
-          <thead>
-            <th> Amount </th>
-            <th> Detail </th>
-            <th> Date </th>
-          </thead>
-          <tbody>
-            {transactions.map((trx) => ( //mapping transactions
-              <tr key={trx._id}>
-              <td>{trx.amount}</td>
-              <td>{trx.detail}</td>
-              <td>{trx.Date}</td>
-            </tr>
-            ))}
-            
-          </tbody>
-        </table>
-      </section>
+
     </div>
   );
 }
