@@ -1,5 +1,5 @@
 // import * as React from 'react';
-import {  useState } from 'react';
+import {  useEffect, useState } from 'react';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
@@ -9,6 +9,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { DesktopDatePicker } from '@mui/x-date-pickers';
 
+//TODO: UPDATE API
 
 const InitialForm = {
     amount:0,
@@ -16,9 +17,17 @@ const InitialForm = {
     date: " ", //new Date() 
   };
 
-export default function TransactionForm({fetchTransactions}) {
+export default function TransactionForm({fetchTransactions, editTransactions}) {
 
     const[form, setForm] = useState(InitialForm);
+
+    useEffect(() => {  //move among components via parent component
+      if(editTransactions !== {}) {
+        setForm(editTransactions)
+      };
+      
+      console.log(editTransactions);
+    }, [editTransactions]);
 
     function handleChange(e) {
         setForm({...form, [e.target.name]: e.target.value});
@@ -30,6 +39,17 @@ export default function TransactionForm({fetchTransactions}) {
 
     async function handleSubmit(e) {
         e.preventDefault(); // prevents page from refreshing
+        
+        const res = editTransactions === {} ? await create() : await update(); //ternary operator
+
+        
+        if(res.ok) {
+          setForm(InitialForm);
+          fetchTransactions();
+        }        
+      }
+
+      async function create() {
         const res = await fetch("http://localhost:4000/transaction", {  //creates a new transaction
           method: 'POST',
           body: JSON.stringify(form),
@@ -37,12 +57,21 @@ export default function TransactionForm({fetchTransactions}) {
             'Content-Type': 'application/json'
           }
         });
-        if(res.ok) {
-          setForm(InitialForm);
-          fetchTransactions();
-        }
-        
+        return res;
       }
+      async function update() {
+        const res = await fetch(`http://localhost:4000/transaction/${editTransactions._id}`, 
+        {  
+          method: 'PATCH',
+          body: JSON.stringify(form),
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        });
+        return res;
+      }
+
+
   return (
     <Card sx={{ minWidth: 275, marginTop: 10 }}>
       <CardContent>
@@ -87,14 +116,27 @@ export default function TransactionForm({fetchTransactions}) {
                         />}
                 />             
             </LocalizationProvider>
-
-            <Button 
+            {
+              editTransactions !== {} && (
+              <Button 
+                type="submit" 
+                variant="secondary"
+                sx={{marginLeft: 1}}
+            >
+                Update
+            </Button>
+            )}
+            {
+              editTransactions === {} &&(
+                <Button 
                 type="submit" 
                 variant="contained"
                 sx={{marginLeft: 1}}
             >
                 Submit
             </Button>
+            )}
+            
         </form>
         
       </CardContent>

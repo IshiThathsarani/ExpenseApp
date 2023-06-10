@@ -13,7 +13,7 @@ import IconButton from '@mui/material/IconButton';
 import dayjs from 'dayjs';
 
 
-export default function TransactionList({transactions}) {
+export default function TransactionList({transactions,  setEditTransactions}) {
 
   async function remove(_id) {
     if(!window.confirm("Are you sure you want to delete this transaction?"))return;
@@ -63,7 +63,7 @@ export default function TransactionList({transactions}) {
                 <IconButton 
                   color="primary"                  
                   component="label"
-                  
+                  onClick={()=>setEditTransactions(row)}
                 >
                   <EditSharpIcon />
                 </IconButton>
