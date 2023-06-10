@@ -13,6 +13,7 @@ app.use(bodyParser.json());
 app.get('/', (req, res) => { //get request
     res.send('Hello World');
 });
+
 app.use('/transaction', TransactionsAPI);
 
 connect();
