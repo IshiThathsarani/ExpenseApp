@@ -10,9 +10,11 @@ import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-
+import { useNavigate } from 'react-router-dom';
 
 export default function Register() {
+
+  const navigate = useNavigate();
   const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -22,7 +24,7 @@ export default function Register() {
       email: data.get('email'),
       password: data.get('password'),
     };
-
+    //http://localhost:4000/auth/register
     const res = await fetch("http://localhost:4000/auth/register", 
     {  
       method: 'POST',
@@ -32,6 +34,7 @@ export default function Register() {
       }
     });
     if(res.ok){
+      navigate('/')
       console.log("Success")
     }
   };
@@ -99,7 +102,7 @@ export default function Register() {
               </Grid>
               
               </Grid>
-            
+              <RouterLink to="/">
             <Button
               type="submit"
               fullWidth
@@ -108,6 +111,7 @@ export default function Register() {
             >
               Sign Up
             </Button>
+            </RouterLink>
             <Grid container justifyContent="flex-end">
               <Grid item>
                 <RouterLink to="/login">

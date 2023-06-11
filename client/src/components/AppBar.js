@@ -14,7 +14,10 @@ export default function ButtonAppBar() {
             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
               <Link to="/" className="txt-white">Expensor </Link>
             </Typography>
-                    
+
+            <Link to="/login" className="txt-white">
+            <Button color="inherit">LogOut</Button>
+          </Link>        
           <Link to="/login" className="txt-white">
             <Button color="inherit">Login</Button>
           </Link>          

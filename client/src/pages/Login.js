@@ -10,16 +10,36 @@ import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
+import Cookies from 'js-cookie' ;
+import { useNavigate } from 'react-router-dom';
 
 
 export default function Login() {
-  const handleSubmit = (event) => {
+
+  const navigate = useNavigate();
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
+    const form = {
       email: data.get('email'),
       password: data.get('password'),
+    };
+    const res = await fetch('http://localhost:4000/auth/login',{
+      method: 'POST',
+      body: JSON.stringify(form),
+      headers: {
+        'Content-Type': 'application/json'
+      }
     });
+
+    const {token} = await res.json();
+
+    if(res.ok){
+      Cookies.set('token', token);
+      navigate('/')
+      // console.log(token)
+    }
   };
 
   return (
@@ -61,6 +81,7 @@ export default function Login() {
               id="password"
               autoComplete="current-password"
             />
+            <RouterLink to='/'>
             <Button
               type="submit"
               fullWidth
@@ -69,6 +90,8 @@ export default function Login() {
             >
               Sign In
             </Button>
+            </RouterLink>
+            
             <Grid container>
               <Grid item>
                 <RouterLink to="/register">
