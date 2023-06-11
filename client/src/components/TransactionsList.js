@@ -26,8 +26,8 @@ export default function TransactionList({transactions, fetchTransactions, setEdi
     };
   }
 
-  function formatDate(date){
-    return dayjs(date).format("DD MMM YYYY");
+  function formatDate(Date){
+    return dayjs(Date).format("DD MMM YYYY");
   }
 
   return (
@@ -64,7 +64,7 @@ export default function TransactionList({transactions, fetchTransactions, setEdi
                 <IconButton 
                   color="primary"                  
                   component="label"
-                  onClick={()=>setEditTransactions(row)}
+                  onClick={()=>setEditTransactions(row)} //row = actual transaction
                 >
                   <EditSharpIcon />
                 </IconButton>

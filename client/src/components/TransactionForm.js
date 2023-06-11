@@ -8,6 +8,7 @@ import TextField from '@mui/material/TextField';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { DesktopDatePicker } from '@mui/x-date-pickers';
+import dayjs from 'dayjs';
 
 
 const InitialForm = {
@@ -23,8 +24,7 @@ export default function TransactionForm({fetchTransactions, editTransactions}) {
     useEffect(() => {  //move among components via parent component
       if(editTransactions !== {}) {
         setForm(editTransactions)
-      };
-      
+      };      
       console.log(editTransactions);
     }, [editTransactions]);
 
@@ -39,7 +39,7 @@ export default function TransactionForm({fetchTransactions, editTransactions}) {
     async function handleSubmit(e) {
         e.preventDefault(); // prevents page from refreshing
         
-        const res = editTransactions === {} ? await create() : await update(); //ternary operator
+        const res = editTransactions === {} ?  create() :  update(); //ternary operator
 
         
         if(res.ok) {
@@ -104,7 +104,7 @@ export default function TransactionForm({fetchTransactions, editTransactions}) {
                 <DesktopDatePicker 
                     label="Transaction Date"
                     inputFormat="MM/DD/YYYY"
-                    value={form.Date}
+                    value={dayjs(form.Date)} //datepicker only accepts dayjs format
                     onChange={handleDate}                    
                     renderInput={(params) => 
                         <TextField 
@@ -133,12 +133,9 @@ export default function TransactionForm({fetchTransactions, editTransactions}) {
             >
                 Submit
             </Button>
-            )}
-            
-        </form>
-        
-      </CardContent>
-      
+            )}            
+        </form>        
+      </CardContent>      
     </Card>
   );
 }
