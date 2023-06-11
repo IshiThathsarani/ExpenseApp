@@ -1,8 +1,8 @@
-import './App.css';
+import '../App.css';
 import { useEffect, useState } from 'react';
-import AppBar from './components/AppBar';
-import TransactionForm from './components/TransactionForm';
-import TransactionList from './components/TransactionsList';
+import AppBar from '../components/AppBar';
+import TransactionForm from '../components/TransactionForm';
+import TransactionList from '../components/TransactionsList';
 import { Container } from '@mui/material';
 
 
