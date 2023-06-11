@@ -22,7 +22,7 @@ export default function TransactionForm({fetchTransactions, editTransactions}) {
     const[form, setForm] = useState(InitialForm);
 
     useEffect(() => {  //move among components via parent component
-      if(editTransactions !== {}) {
+      if(editTransactions.amount !== undefined) {
         setForm(editTransactions)
       };      
       console.log(editTransactions);
@@ -39,13 +39,15 @@ export default function TransactionForm({fetchTransactions, editTransactions}) {
     async function handleSubmit(e) {
         e.preventDefault(); // prevents page from refreshing
         
-        const res = editTransactions === {} ?  create() :  update(); //ternary operator
+        const res = editTransactions.amount === undefined ?  create() :  update(); //ternary operator
+      
+      }
 
-        
+      function reload(res) {
         if(res.ok) {
           setForm(InitialForm);
           fetchTransactions();
-        }        
+        }  
       }
 
       async function create() {
@@ -56,7 +58,7 @@ export default function TransactionForm({fetchTransactions, editTransactions}) {
             'Content-Type': 'application/json'
           }
         });
-        return res;
+        reload(res);
       }
       async function update() {
         const res = await fetch(`http://localhost:4000/transaction/${editTransactions._id}`, 
@@ -67,7 +69,7 @@ export default function TransactionForm({fetchTransactions, editTransactions}) {
             'Content-Type': 'application/json'
           }
         });
-        return res;
+        reload(res);
       }
 
 
@@ -115,7 +117,7 @@ export default function TransactionForm({fetchTransactions, editTransactions}) {
                 />             
             </LocalizationProvider>
             {
-              editTransactions !== {} && (
+              editTransactions.amount !== undefined && (
               <Button 
                 type="submit" 
                 variant="secondary"
@@ -125,7 +127,7 @@ export default function TransactionForm({fetchTransactions, editTransactions}) {
             </Button>
             )}
             {
-              editTransactions === {} &&(
+              editTransactions.amount === undefined &&(
                 <Button 
                 type="submit" 
                 variant="contained"
