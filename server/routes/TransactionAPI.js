@@ -22,8 +22,12 @@ router.post('/', async (req, res) => {  //post request
 });
 
 router.delete('/:id', async (req, res) => {  //delete request
-    await Transaction.deleteOne({ _id: req.params.id});
+    await Transaction.deleteOne({ _id: req.params.id}); // get the id
     res.json({msg: "Transaction is deleted successfully"}); 
 });
 
+router.patch('/:id', async (req, res) => {  //patch request
+    await Transaction.updateOne({ _id: req.params.id}, {$set: req.body}); //{$set: req.body} is used to get the data and update it
+    res.json({msg: "Transaction is updated successfully"});
+});
 exports = module.exports = router;
