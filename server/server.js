@@ -1,8 +1,10 @@
 const express = require('express');
 const cors = require("cors");
 const bodyParser = require("body-parser");
-const TransactionsAPI = require("./routes/TransactionAPI.js");
 const connect = require("./database/mongodb.js");
+
+const TransactionsAPI = require("./routes/TransactionAPI.js");
+const AuthAPI = require("./routes/AuthAPI.js");
 
 const PORT = 4000
 const app = express();
@@ -15,6 +17,7 @@ app.get('/', (req, res) => { //get request
 });
 
 app.use('/transaction', TransactionsAPI);
+app.use('/auth', AuthAPI);
 
 connect();
 

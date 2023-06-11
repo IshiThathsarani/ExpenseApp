@@ -13,17 +13,28 @@ import Container from '@mui/material/Container';
 
 
 export default function Register() {
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
+    const form = {
       firstname: data.get('firstName'),
       lastname: data.get('lastName'),
       email: data.get('email'),
       password: data.get('password'),
-    });
-  };
+    };
 
+    const res = await fetch("http://localhost:4000/auth/register", 
+    {  
+      method: 'POST',
+      body: JSON.stringify(form),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+    if(res.ok){
+      console.log("Success")
+    }
+  };
   return (
    
       <Container component="main" maxWidth="xs">
