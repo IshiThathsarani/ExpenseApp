@@ -17,6 +17,8 @@ export default function Register() {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     console.log({
+      firstname: data.get('firstName'),
+      lastname: data.get('lastName'),
       email: data.get('email'),
       password: data.get('password'),
     });
@@ -98,7 +100,7 @@ export default function Register() {
             <Grid container justifyContent="flex-end">
               <Grid item>
                 <RouterLink to="/login">
-                    <Link >
+                    <Link component="span">  {/*resolve the conflict of having <a> with in <a>*/}
                         Already have an account? Sign in
                     </Link>
                 </RouterLink>
