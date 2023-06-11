@@ -1,31 +1,29 @@
-import '../App.css';
+import React from 'react'
 import { useEffect, useState } from 'react';
-import AppBar from '../components/AppBar';
 import TransactionForm from '../components/TransactionForm';
 import TransactionList from '../components/TransactionsList';
 import { Container } from '@mui/material';
+import '../App.css'
 
+export default function Home() {
 
-function Home() {
+    const [transactions, setTransactions] = useState([]); 
+    const [editTransactions, setEditTransactions] = useState({}); 
 
-  const [transactions, setTransactions] = useState([]); 
-  const [editTransactions, setEditTransactions] = useState({}); 
+    useEffect(() => {
+        fetchTransactions();
+      }, []);
 
-  async function fetchTransactions() {
-    const res = await fetch("http://localhost:4000/transaction"); //fetches data from the server. default method: get
-    const {data} = await res.json(); //{data} is used to destructuring
-    setTransactions(data);
-  }
+      async function fetchTransactions() {
+        const res = await fetch("http://localhost:4000/transaction"); //fetches data from the server. default method: get
+        const {data} = await res.json(); //{data} is used to destructuring
+        setTransactions(data);
+      }
 
-  useEffect(() => {
-    fetchTransactions();
-  }, []);
-
+      
   return (
-    <div >
-      <AppBar/>
-
-      <Container>\
+    
+    <Container>
 
         <TransactionForm 
           fetchTransactions={fetchTransactions} 
@@ -38,11 +36,5 @@ function Home() {
         />
         
       </Container>
-      
-
-    </div>
-  );
+  )
 }
-
-export default Home;
-
