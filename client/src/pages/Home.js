@@ -6,7 +6,7 @@ import TransactionList from '../components/TransactionsList';
 import { Container } from '@mui/material';
 
 
-function App() {
+function Home() {
 
   const [transactions, setTransactions] = useState([]); 
   const [editTransactions, setEditTransactions] = useState({}); 
@@ -44,5 +44,5 @@ function App() {
   );
 }
 
-export default App;
+export default Home;
 
