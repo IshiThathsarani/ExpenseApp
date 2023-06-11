@@ -6,18 +6,28 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import reportWebVitals from './reportWebVitals';
-import Home from './pages/Home';
+
 import Login from './pages/Login';
+import App from './App';
+import Home from './pages/Home';
 
 const router = createBrowserRouter([
   {
-    path: "/",
-    element: <Home/>,
+    // path: "/",
+    element: <App/>,
+    children: 
+    [
+      {
+      path: "/",
+      element: <Home />,
+      },
+      {
+      path: "/login",
+      element: <Login />,
+      },
+    ]
   },
-  {
-    path: "/login",
-    element: <Login/>,
-  },
+  
 ]);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
