@@ -9,12 +9,11 @@ import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { DesktopDatePicker } from '@mui/x-date-pickers';
 
-//TODO: UPDATE API
 
 const InitialForm = {
-    amount:0,
+    amount:'',
     detail:" ",
-    date: " ", //new Date() 
+    date: '' , //new Date()
   };
 
 export default function TransactionForm({fetchTransactions, editTransactions}) {
@@ -105,8 +104,7 @@ export default function TransactionForm({fetchTransactions, editTransactions}) {
                 <DesktopDatePicker 
                     label="Transaction Date"
                     inputFormat="MM/DD/YYYY"
-                    // name="date"
-                    value={form.date}
+                    value={form.Date}
                     onChange={handleDate}                    
                     renderInput={(params) => 
                         <TextField 
