@@ -25,13 +25,15 @@ function App() {
     <div >
       <AppBar/>
 
-      <Container>
+      <Container>\
+
         <TransactionForm 
           fetchTransactions={fetchTransactions} 
           editTransactions={editTransactions}
         />
         <TransactionList 
           transactions={transactions}
+          fetchTransactions={fetchTransactions}
           setEditTransactions={setEditTransactions}
         />
         
