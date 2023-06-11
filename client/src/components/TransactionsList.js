@@ -13,14 +13,15 @@ import IconButton from '@mui/material/IconButton';
 import dayjs from 'dayjs';
 
 
-export default function TransactionList({transactions,  setEditTransactions}) {
+export default function TransactionList({transactions, fetchTransactions, setEditTransactions}) {
 
   async function remove(_id) {
-    if(!window.confirm("Are you sure you want to delete this transaction?"))return;
+    if(!window.confirm("Are you sure you want to delete this transaction?")) return;
     const res = await fetch(`http://localhost:4000/transaction/${_id}`, {
       method: 'DELETE'
     });
     if(res.ok) {
+      fetchTransactions();
       window.alert("Transaction deleted successfully");
     };
   }
